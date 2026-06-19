@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lei-monitor-config
+  namespace: lei-monitor
+data:
+  DOTNET_ENVIRONMENT: "Production"

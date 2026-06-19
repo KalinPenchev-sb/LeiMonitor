@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LeiMonitor.Core/LeiMonitor.Core.csproj" />
+    <Project Path="src/LeiMonitor.Data/LeiMonitor.Data.csproj" />
+    <Project Path="src/LeiMonitor.Function/LeiMonitor.Function.csproj" />
+    <Project Path="src/LeiMonitor.Worker/LeiMonitor.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LeiMonitor.Core.Tests/LeiMonitor.Core.Tests.csproj" />
+  </Folder>
+</Solution>

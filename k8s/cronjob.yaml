@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: lei-expiry-check
+  namespace: lei-monitor
+spec:
+  schedule: "0 8 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          serviceAccountName: lei-monitor-sa
+          restartPolicy: Never
+          containers:
+            - name: lei-monitor
+              image: REGISTRY/lei-monitor:TAG
+              env:
+                - name: ConnectionStrings__CustomerStorage
+                  valueFrom:
+                    secretKeyRef:
+                      name: lei-monitor-secret
+                      key: CustomerStorage
+              envFrom:
+                - configMapRef:
+                    name: lei-monitor-config
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 250m
+                  memory: 256Mi
