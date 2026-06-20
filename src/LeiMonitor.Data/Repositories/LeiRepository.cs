@@ -25,15 +25,17 @@ public class LeiRepository : ILeiRepository
             WHERE  [IsExpired] = 1
             AND    [IsActive] = 1";
 
-        var result = new List<LeiIssue>();
-         result.Add(new LeiIssue
+        var result = new List<LeiIssue>
         {
-            CustomerId = Guid.NewGuid(),
-            LeiCode = "1234567890",
-            LegalName = "Test Company",
-            ExpirationDate = DateTime.UtcNow.AddDays(-1),
-            IsExpired = true
-        });
+            new LeiIssue
+            {
+                CustomerId = Guid.NewGuid(),
+                LeiCode = "1234567890",
+                LegalName = "Test Company",
+                ExpirationDate = DateTime.UtcNow.AddDays(-1),
+                IsExpired = true
+            }
+        };
 
         return result.AsReadOnly();
         // using var conn = new SqlConnection(_connectionString);
