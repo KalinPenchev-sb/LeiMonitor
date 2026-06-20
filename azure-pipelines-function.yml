@@ -1,0 +1,122 @@
+name: LeiMonitor.Function — CI/CD
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - src/LeiMonitor.Core/**
+      - src/LeiMonitor.Data/**
+      - src/LeiMonitor.Function/**
+      - azure-pipelines-function.yml
+
+pr:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - src/LeiMonitor.Core/**
+      - src/LeiMonitor.Data/**
+      - src/LeiMonitor.Function/**
+      - azure-pipelines-function.yml
+
+variables:
+  dotnetVersion: '9.0.x'
+  functionProject: 'src/LeiMonitor.Function/LeiMonitor.Function.csproj'
+  publishDir: '$(Pipeline.Workspace)/publish/function'
+  # Non-sensitive config — defined here rather than as pipeline secrets
+  azureResourceGroup: 'rg-lei-monitor-dev'
+  azureFunctionAppName: 'func-lei-monitor-dev'
+  # Sensitive — defined as a pipeline variable (secret) in Azure DevOps project settings
+  # azureServiceConnection: set in Pipeline > Variables as a secret or defined in Library
+
+stages:
+
+  # -------------------------------------------------------------------
+  # Stage 1: Build — runs on every push and every PR
+  # -------------------------------------------------------------------
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: Build
+        displayName: Restore and Build
+        pool:
+          vmImage: ubuntu-latest
+
+        steps:
+          - checkout: self
+
+          - task: UseDotNet@2
+            displayName: Setup .NET $(dotnetVersion)
+            inputs:
+              packageType: sdk
+              version: $(dotnetVersion)
+
+          - task: DotNetCoreCLI@2
+            displayName: Restore
+            inputs:
+              command: restore
+              projects: $(functionProject)
+
+          - task: DotNetCoreCLI@2
+            displayName: Build
+            inputs:
+              command: build
+              projects: $(functionProject)
+              arguments: --configuration Release --no-restore
+
+  # -------------------------------------------------------------------
+  # Stage 2: Deploy — runs only on push to master, after Build passes
+  # -------------------------------------------------------------------
+  - stage: Deploy
+    displayName: Publish and Deploy
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+    jobs:
+      - deployment: DeployFunctionApp
+        displayName: Deploy to Azure Function App
+        pool:
+          vmImage: ubuntu-latest
+        environment: dev
+
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+
+                - task: UseDotNet@2
+                  displayName: Setup .NET $(dotnetVersion)
+                  inputs:
+                    packageType: sdk
+                    version: $(dotnetVersion)
+
+                - task: DotNetCoreCLI@2
+                  displayName: Publish
+                  inputs:
+                    command: publish
+                    projects: $(functionProject)
+                    arguments: --configuration Release --output $(publishDir) --no-self-contained
+                    publishWebProjects: false
+                    zipAfterPublish: false
+
+                - task: ArchiveFiles@2
+                  displayName: Zip publish output
+                  inputs:
+                    rootFolderOrFile: $(publishDir)
+                    includeRootFolder: false
+                    archiveType: zip
+                    archiveFile: $(Pipeline.Workspace)/publish/function.zip
+                    replaceExistingArchive: true
+
+                - task: AzureFunctionApp@2
+                  displayName: Deploy to Function App
+                  inputs:
+                    connectedServiceNameARM: $(azureServiceConnection)
+                    appType: functionApp
+                    appName: $(azureFunctionAppName)
+                    package: $(Pipeline.Workspace)/publish/function.zip
+                    deploymentMethod: zipDeploy
