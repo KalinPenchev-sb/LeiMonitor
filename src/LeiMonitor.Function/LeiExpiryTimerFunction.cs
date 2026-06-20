@@ -14,7 +14,7 @@ public class LeiExpiryTimerFunction
 
     [Function("LeiExpiryCheck")]
     public async Task Run(
-        [TimerTrigger("0 0 8 * * *")] TimerInfo timer,
+        [TimerTrigger("0 5 15 * * *")] TimerInfo timer,
         FunctionContext context,
         CancellationToken ct)
     {
