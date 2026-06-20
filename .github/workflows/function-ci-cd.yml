@@ -18,6 +18,10 @@ on:
       - 'src/LeiMonitor.Function/**'
       - '.github/workflows/function-ci-cd.yml'
 
+permissions:
+  id-token: write   # required for OIDC login
+  contents: read    # required for actions/checkout
+
 env:
   DOTNET_VERSION: '9.0.x'
   FUNCTION_PROJECT: 'src/LeiMonitor.Function/LeiMonitor.Function.csproj'
