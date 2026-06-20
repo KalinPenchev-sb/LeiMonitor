@@ -25,8 +25,19 @@ public class LeiRepository : ILeiRepository
             WHERE  [IsExpired] = 1
             AND    [IsActive] = 1";
 
-        using var conn = new SqlConnection(_connectionString);
-        var results = await conn.QueryAsync<LeiIssue>(new CommandDefinition(sql, cancellationToken: ct));
-        return results.ToList().AsReadOnly();
+        var result = new List<LeiIssue>();
+         result.Add(new LeiIssue
+        {
+            CustomerId = Guid.NewGuid(),
+            LeiCode = "1234567890",
+            LegalName = "Test Company",
+            ExpirationDate = DateTime.UtcNow.AddDays(-1),
+            IsExpired = true
+        });
+
+        return result.AsReadOnly();
+        // using var conn = new SqlConnection(_connectionString);
+        // var results = await conn.QueryAsync<LeiIssue>(new CommandDefinition(sql, cancellationToken: ct));
+        // return results.ToList().AsReadOnly();
     }
 }
