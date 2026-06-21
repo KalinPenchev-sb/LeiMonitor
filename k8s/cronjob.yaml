@@ -4,7 +4,8 @@ metadata:
   name: lei-expiry-check
   namespace: lei-monitor
 spec:
-  schedule: "0 8 * * *"
+  schedule: "30 23 * * *"
+  timeZone: "Europe/Sofia"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3

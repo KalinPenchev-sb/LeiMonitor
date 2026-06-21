@@ -10,6 +10,9 @@ COPY src/LeiMonitor.Core/ src/LeiMonitor.Core/
 COPY src/LeiMonitor.Data/ src/LeiMonitor.Data/
 COPY src/LeiMonitor.Worker/ src/LeiMonitor.Worker/
 
+# Re-run restore after full source copy so publish does not use host-generated obj/assets.
+RUN dotnet restore src/LeiMonitor.Worker/LeiMonitor.Worker.csproj
+
 RUN dotnet publish src/LeiMonitor.Worker/LeiMonitor.Worker.csproj \
     -c Release \
     -o /app \
