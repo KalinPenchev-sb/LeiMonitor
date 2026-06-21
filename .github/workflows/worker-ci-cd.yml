@@ -17,7 +17,7 @@ permissions:
   contents: read    # required for actions/checkout
 
 env:
-  ACR_NAME:    acrleimonitodev
+  ACR_NAME:    acrleimonitordev
   AKS_CLUSTER: aks-lei-monitor-dev
   AKS_RG:      rg-lei-monitor-dev
   IMAGE_NAME:  lei-monitor

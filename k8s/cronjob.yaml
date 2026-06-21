@@ -17,7 +17,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: lei-monitor
-              image: acrleimonitodev.azurecr.io/lei-monitor:latest
+              image: acrleimonitordev.azurecr.io/lei-monitor:latest
               env:
                 - name: ConnectionStrings__CustomerStorage
                   valueFrom:

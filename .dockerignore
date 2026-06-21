@@ -1,0 +1,25 @@
+# Visual Studio local cache — causes permission errors with az acr build
+.vs/
+
+# Build and publish output
+**/bin/
+**/obj/
+publish/
+
+# Test results
+**/TestResults/
+
+# Git
+.git/
+.gitignore
+
+# GitHub Actions
+.github/
+
+# Docs and Kubernetes manifests — not needed in the image
+docs/
+k8s/
+scripts/
+
+# Docker file itself
+.dockerignore

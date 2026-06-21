@@ -49,7 +49,7 @@ The pipeline uses `azure/login@v2` with `client-id`, `tenant-id`, and `subscript
 
 ```yaml
 env:
-  ACR_NAME:    acrleimonitodev
+  ACR_NAME:    acrleimonitordev
   AKS_CLUSTER: aks-lei-monitor-dev
   AKS_RG:      rg-lei-monitor-dev
   IMAGE_NAME:  lei-monitor
@@ -61,8 +61,8 @@ The ACR name, cluster name, and resource group are not credentials. Storing them
 
 ```yaml
 docker build \
-  --tag acrleimonitodev.azurecr.io/lei-monitor:${{ github.sha }} \
-  --tag acrleimonitodev.azurecr.io/lei-monitor:latest \
+  --tag acrleimonitordev.azurecr.io/lei-monitor:${{ github.sha }} \
+  --tag acrleimonitordev.azurecr.io/lei-monitor:latest \
   .
 ```
 
@@ -72,7 +72,7 @@ The SHA tag is immutable and traceable to an exact commit. The `latest` tag is a
 
 ```yaml
 kubectl set image cronjob/lei-expiry-check \
-  lei-monitor=acrleimonitodev.azurecr.io/lei-monitor:${{ github.sha }} \
+  lei-monitor=acrleimonitordev.azurecr.io/lei-monitor:${{ github.sha }} \
   --namespace lei-monitor
 ```
 

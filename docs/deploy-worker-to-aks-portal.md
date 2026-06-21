@@ -41,7 +41,7 @@ No action needed. The existing `rg-lei-monitor-dev` resource group is used. The 
 3. Fill in the **Basics** tab:
    - **Subscription:** your subscription
    - **Resource group:** `rg-lei-monitor-dev`
-   - **Registry name:** `acrleimonitodev` *(must be globally unique — lowercase alphanumeric only)*
+   - **Registry name:** `acrleimonitordev` *(must be globally unique — lowercase alphanumeric only)*
    - **Location:** `North Europe`
    - **Pricing plan:** **Basic**
 4. Leave all other tabs at their defaults.
@@ -74,7 +74,7 @@ No action needed. The existing `rg-lei-monitor-dev` resource group is used. The 
    >
    > **To request a quota increase:** Portal → **Subscriptions** → your subscription → **Usage + quotas** → search the family name → click the pencil icon → set **New limit** to `2` → **Submit**. Approval is usually instant on pay-as-you-go subscriptions.
 4. Go to the **Integrations** tab:
-   - **Container registry:** select `acrleimonitodev`
+   - **Container registry:** select `acrleimonitordev`
 
    > **Why:** Selecting the ACR here automatically grants the cluster's managed identity the `AcrPull` role on the registry. No additional credentials are needed for image pulls.
 
@@ -89,7 +89,7 @@ The existing app registration used by the Function pipeline needs two additional
 
 ### AcrPush on the ACR
 
-1. In the portal go to **Container registries** → `acrleimonitodev`.
+1. In the portal go to **Container registries** → `acrleimonitordev`.
 2. In the left menu click **Access control (IAM)**.
 3. Click **+ Add** → **Add role assignment**.
 4. On the **Role** tab: search for and select **AcrPush** → **Next**.
@@ -120,7 +120,7 @@ Then build and push:
 
 ```powershell
 az login
-az acr build --registry acrleimonitodev --image lei-monitor:latest .
+az acr build --registry acrleimonitordev --image lei-monitor:latest .
 ```
 
 `az acr build` sends the source to Azure and builds it there — no local Docker daemon required. If Docker is already running on that VM you can use it instead, but `az acr build` works either way.
@@ -128,7 +128,7 @@ az acr build --registry acrleimonitodev --image lei-monitor:latest .
 Verify the image arrived:
 
 ```powershell
-az acr repository show-tags --name acrleimonitodev --repository lei-monitor --output table
+az acr repository show-tags --name acrleimonitordev --repository lei-monitor --output table
 ```
 
 ---

@@ -181,7 +181,7 @@ spec:
 Provision the following from scratch using the cheapest available SKUs:
 
 - Resource group: `rg-lei-monitor-aks-dev` in `uksouth`
-- Azure Container Registry: Basic SKU (cheapest), name `acrleimonitodev` (or similar unique name)
+- Azure Container Registry: Basic SKU (cheapest), name `acrleimonitordev` (or similar unique name)
 - AKS cluster: single node pool, 1 node, `Standard_B2s` VM size (cheapest for AKS), Kubernetes RBAC enabled
 - Attach the ACR to the AKS cluster so the cluster can pull images without extra credentials
 
