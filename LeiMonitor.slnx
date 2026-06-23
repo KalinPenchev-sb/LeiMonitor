@@ -7,5 +7,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/LeiMonitor.Core.Tests/LeiMonitor.Core.Tests.csproj" />
+    <Project Path="tests/LeiMonitor.Data.Tests/LeiMonitor.Data.Tests.csproj" />
   </Folder>
 </Solution>

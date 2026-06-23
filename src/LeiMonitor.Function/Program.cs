@@ -10,7 +10,8 @@ var host = new HostBuilder()
     .ConfigureServices((ctx, services) =>
     {
         services.AddSingleton<ILeiRepository, LeiRepository>();
-        services.AddSingleton<IAlertSender, EmailAlertSender>();
+        services.AddSingleton<INotificationChannel, EmailNotificationChannel>();
+        services.AddSingleton<IAlertSender, CompositeAlertSender>();
         services.AddSingleton<LeiExpiryChecker>();
     })
     .Build();
