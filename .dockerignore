@@ -3,7 +3,9 @@
 
 # Build and publish output
 **/bin/
+**/bin/**
 **/obj/
+**/obj/**
 publish/
 
 # Test results
